@@ -1,5 +1,11 @@
 {
-	"title"		:	"Context Menu MultiSelect",
-	"type"		:	"tool",
-	"tags"		:	["scenic", "build"]
+	"title" : "Context Menu MultiSelect",
+	"type" : "tool",
+	"tags" : ["scenic", "build"],
+	"ignore" :
+	[
+		".git/*",
+		"LICENSE",
+		"README.md"
+	]
 }
