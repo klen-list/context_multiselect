@@ -22,8 +22,6 @@ hook.Add("PlayerBindPress", "ContextMultiSelect_BlockCtrl", function(_, __, pres
 	if g_ContextMenu:IsVisible() and code == KEY_LCONTROL and pressed then return true end
 end)
 
-hook.Remove("CreateMove", "ContextMultiSelect_DisableDuck")
-
 hook.Add("PreDrawHalos", "ContextMultiSelect_DrawCurrent", function()
 	halo.Add(curselect, selection_color, 4 + math.sin(RealTime() * 20), 4 + math.sin(RealTime() * 20), 2)
 end)
