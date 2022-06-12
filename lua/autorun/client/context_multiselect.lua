@@ -18,15 +18,28 @@ cvars.AddChangeCallback("multiselection_color", function(_, __, new)
 	selection_color = GetColorFromStr(new)
 end, "update_color")
 
-hook.Add("PlayerBindPress", "ContextMultiSelect_BlockCtrl", function(_, __, pressed, code)
-	if g_ContextMenu:IsVisible() and code == KEY_LCONTROL and pressed then return true end
-end)
-
 hook.Add("PreDrawHalos", "ContextMultiSelect_DrawCurrent", function()
 	halo.Add(curselect, selection_color, 4 + math.sin(RealTime() * 20), 4 + math.sin(RealTime() * 20), 2)
 end)
 
 hook.Add("OnContextMenuClose", "ContextMultiSelect_ClearCurrent", function() table.Empty(curselect) end)
+
+local bind_down = false
+
+concommand.Add("+multisel", function() bind_down = true end)
+concommand.Add("-multisel", function() bind_down = false end)
+
+local function input_IsBindDown()
+	if input.LookupBinding"multisel" then
+		return bind_down
+	else
+		return input.IsControlDown()
+	end
+end
+
+hook.Add("PlayerBindPress", "ContextMultiSelect_BlockCtrl", function(_, __, pressed, code)
+	if not input.LookupBinding"multisel" and g_ContextMenu:IsVisible() and code == KEY_LCONTROL and pressed then return true end
+end)
 
 local function AddToggleOption(data, menu, ent, ply, tr)
 	if not menu.ToggleSpacer then
@@ -101,7 +114,7 @@ end
 g_original_context_hook = g_original_context_hook or hook.GetTable()["GUIMousePressed"]["PropertiesClick"]
 hook.Add("GUIMousePressed", "PropertiesClick", function(code, vec)
 	if not g_ContextMenu:IsVisible() then return end
-	if not input.IsControlDown() then
+	if not input_IsBindDown() then
 		for i, e in ipairs(curselect) do
 			if not IsValid(e) then
 				table.remove(curselect, i)
