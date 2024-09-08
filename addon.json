@@ -1,5 +1,6 @@
 {
 	"title" : "Context Menu MultiSelect",
+	"description": "Context Menu MultiSelect",
 	"type" : "tool",
 	"tags" : ["scenic", "build"],
 	"ignore" :

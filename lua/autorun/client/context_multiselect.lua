@@ -37,8 +37,12 @@ local function input_IsBindDown()
 	end
 end
 
+local function IsContextMenuVisible()
+	return IsValid(g_ContextMenu) and g_ContextMenu:IsVisible()
+end
+
 hook.Add("PlayerBindPress", "ContextMultiSelect_BlockCtrl", function(_, __, pressed, code)
-	if not input.LookupBinding"multisel" and g_ContextMenu:IsVisible() and code == KEY_LCONTROL and pressed then return true end
+	if not input.LookupBinding"multisel" and IsContextMenuVisible() and code == KEY_LCONTROL and pressed then return true end
 end)
 
 local function AddToggleOption(data, menu, ent, ply, tr)
@@ -113,7 +117,7 @@ end
 
 g_original_context_hook = g_original_context_hook or hook.GetTable()["GUIMousePressed"]["PropertiesClick"]
 hook.Add("GUIMousePressed", "PropertiesClick", function(code, vec)
-	if not g_ContextMenu:IsVisible() then return end
+	if not IsContextMenuVisible() then return end
 	if not input_IsBindDown() then
 		for i, e in ipairs(curselect) do
 			if not IsValid(e) then
