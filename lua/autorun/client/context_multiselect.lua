@@ -127,7 +127,7 @@ hook.Add("GUIMousePressed", "PropertiesClick", function(code, vec)
 		return g_original_context_hook(code, vec)
 	end
 	if code == MOUSE_RIGHT then
-		local ent = properties.GetHovered(EyePos(), vec)
+		local ent = properties.GetHovered(LocalPlayer():EyePos(), vec)
 		if IsValid(ent) then
 			for i, e in ipairs(curselect) do
 				if not IsValid(e) then
